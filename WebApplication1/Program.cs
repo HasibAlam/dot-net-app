@@ -19,7 +19,7 @@ app.MapGet("/", async context =>
     <body>
         <div class='container'>
             <h1>Team 8 presents the lottery game</h1>
-            <p>This is a test for recording deployment</p>
+            <p>Continuous deployment and this a sucess</p>
             <p>Please choose a number between 1 and 10 and try your luck!</p>
             <form method='post' action='/lottery'>
                 <input type='number' id='guess' name='guess' min='1' max='10' required>
