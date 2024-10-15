@@ -1,0 +1,13 @@
+# Visual Studio .vs folder
+.vs/
+
+# Build directories
+bin/
+obj/
+
+# User-specific files
+*.user
+*.suo
+
+# Ignore dependency directories
+packages/
