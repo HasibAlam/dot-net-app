@@ -4,44 +4,42 @@ on:
   workflow_dispatch:
   push:
     branches:
-      - main
+    - main
 
 env:
   AZURE_WEBAPP_NAME: team-eight
-  AZURE_WEBAPP_PACKAGE_PATH: './publish'
+  AZURE_WEBAPP_PACKAGE_PATH: "./publish"
 
 jobs:
   publish:
     runs-on: ubuntu-latest
-
+    
     steps:
       # Checkout the repository
       - uses: actions/checkout@v3
-
+      
       # Set up .NET Core
       - name: Setup .NET Core
         uses: actions/setup-dotnet@v3
         with:
-          dotnet-version: '6.0.x'
-
+          dotnet-version: '6.0.x'  # Update this to match your project version if needed
+          
       # Restore dependencies
-      - name: Restore dependencies
-        run: dotnet restore ./WebApplication1.sln
-
+      - name: Restore
+        run: dotnet restore ./WebApplication1.sln  # Use your solution name here (e.g., WebApplication1.sln)
+        
       # Build the application
-      - name: Build the app
-        run: dotnet build ./WebApplication1.sln --configuration Release
-
-      # Publish the application to the specified folder
-      - name: Publish the app
-        run: dotnet publish ./WebApplication1.sln --configuration Release --output '${{ env.AZURE_WEBAPP_PACKAGE_PATH }}'
-
+      - name: Build
+        run: dotnet build ./WebApplication1.sln --configuration Release --no-restore
+        
+      # Publish the application
+      - name: Publish
+        run: dotnet publish ./WebApplication1.sln --configuration Release --no-build --output '${{ env.AZURE_WEBAPP_PACKAGE_PATH }}'
+        
       # Deploy to Azure Web App
-      - name: Deploy to Azure Web App
+      - name: Deployment
         uses: azure/webapps-deploy@v2
         with:
-          app-name: ${{ env.AZURE_WEBAPP_NAME }}   # The Azure Web App name
+          app-name: ${{ env.AZURE_WEBAPP_NAME }}    # Azure Web App name (replace with your actual app name)
           publish-profile: ${{ secrets.AZURE_PUBLISH_PROFILE }}  # Ensure your publish profile secret is correctly set
-          package: '${{ env.AZURE_WEBAPP_PACKAGE_PATH }}'
-
-
+          package: "${{ env.AZURE_WEBAPP_PACKAGE_PATH }}"
