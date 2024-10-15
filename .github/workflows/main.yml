@@ -1,0 +1,33 @@
+name: Publish 🚀
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+    - main
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    
+    steps:
+      # Checkout the repository
+      - uses: actions/checkout@v3
+      
+      # Set up .NET Core
+      - name: Setup .NET Core
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: '6.0.x'  # Update this to match your project version if needed
+          
+      # Restore dependencies
+      - name: Restore
+        run: dotnet restore ./WebApplication1.sln  # Use your solution name here (e.g., WebApplication1.sln)
+        
+      # Build the application
+      - name: Build
+        run: dotnet build ./WebApplication1.sln --configuration Release --no-restore
+        
+      # Publish the application
+      - name: Publish
+        run: dotnet publish ./WebApplication1.sln --configuration Release --no-build 
