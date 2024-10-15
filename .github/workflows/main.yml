@@ -6,6 +6,10 @@ on:
     branches:
     - main
 
+env:
+  AZURE_WEBAPP_NAME: team-eight
+  AZURE_WEBAPP_PACKAGE_PATH: "./publish"
+
 jobs:
   publish:
     runs-on: ubuntu-latest
@@ -30,4 +34,13 @@ jobs:
         
       # Publish the application
       - name: Publish
-        run: dotnet publish ./WebApplication1.sln --configuration Release --no-build 
+        run: dotnet publish ./WebApplication1.sln --configuration Release --no-build --output '${{ env.AZURE_WEBAPP_PACKAGE_PATH }}'
+        
+      # Deploy to Azure Web App
+      - name: Deployment
+        uses: azure/webapps-deploy@v2
+        with:
+          app-name: ${{ env.AZURE_WEBAPP_NAME }}    # Azure Web App name (replace with your actual app name)
+          publish-profile: ${{ secrets.AZURE_PUBLISH_PROFILE }}  # Ensure your publish profile secret is correctly set
+          package: "${{ env.AZURE_WEBAPP_PACKAGE_PATH }}"
+
