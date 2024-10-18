@@ -1,10 +1,8 @@
 var builder = WebApplication.CreateBuilder(args);
 var app = builder.Build();
 
-// Add middleware to serve static files (like CSS, images, etc.)
 app.UseStaticFiles();
 
-// Define the root ("/") route that displays the lottery form
 app.MapGet("/", async context =>
 {
     var html = @"
@@ -19,7 +17,7 @@ app.MapGet("/", async context =>
     <body>
         <div class='container'>
             <h1>Team 8 presents the lottery game</h1>
-            <p>Deployment Successful</p>
+            <p>Final Testing</p>
             <p>Please choose a number between 1 and 10 and try your luck!</p>
             <form method='post' action='/lottery'>
                 <input type='number' id='guess' name='guess' min='1' max='10' required>
@@ -33,7 +31,6 @@ app.MapGet("/", async context =>
     await context.Response.WriteAsync(html);
 });
 
-// Define the POST route for "/lottery" that handles the lottery game logic
 app.MapPost("/lottery", async context =>
 {
     var form = await context.Request.ReadFormAsync();
