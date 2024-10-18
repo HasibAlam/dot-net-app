@@ -22,13 +22,13 @@ jobs:
       - name: Setup .NET Core
         uses: actions/setup-dotnet@v3
         with:
-          dotnet-version: '6.0.x'  # Update this to match your project version if needed
+          dotnet-version: '6.0.x'  # my c# version
           
-      # Restore dependencies (only for WebApplication1 project)
+     
       - name: Restore Web App Dependencies
         run: dotnet restore ./WebApplication1/WebApplication1.csproj  # Use the .csproj for the web app
         
-      # Build the application (only for WebApplication1 project)
+      
       - name: Build Web App
         run: dotnet build ./WebApplication1/WebApplication1.csproj --configuration Release --no-restore
         
@@ -40,8 +40,8 @@ jobs:
       - name: Deployment
         uses: azure/webapps-deploy@v2
         with:
-          app-name: ${{ env.AZURE_WEBAPP_NAME }}    # Azure Web App name (replace with your actual app name)
-          publish-profile: ${{ secrets.AZURE_PUBLISH_PROFILE }}  # Ensure your publish profile secret is correctly set
+          app-name: ${{ env.AZURE_WEBAPP_NAME }}    
+          publish-profile: ${{ secrets.AZURE_PUBLISH_PROFILE }}
           package: "${{ env.AZURE_WEBAPP_PACKAGE_PATH }}"
 
   test:
